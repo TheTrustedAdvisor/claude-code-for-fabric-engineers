@@ -1,0 +1,5 @@
+find_replace:
+  - find_value: "hello-01"
+    replace_value:
+      dev: "hello-dev-via-fabric-cicd"
+      prod: "hello-prod-via-fabric-cicd"

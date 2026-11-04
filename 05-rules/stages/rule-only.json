@@ -1,0 +1,12 @@
+{
+  "env": {
+    "CLAUDE_CODE_USE_POWERSHELL_TOOL": "0"
+  },
+  "permissions": {
+    "defaultMode": "default",
+    "allow": [
+      "Bash(./deploy.sh *)",
+      "Bash(python3 deploy.py *)"
+    ]
+  }
+}
