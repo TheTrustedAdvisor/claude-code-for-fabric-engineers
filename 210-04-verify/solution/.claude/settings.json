@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(fab job run-list *)",
+      "Bash(fab job run-status *)",
+      "Bash(fab ls *)",
+      "Bash(python3 checks/check_orders.py)"
+    ]
+  }
+}

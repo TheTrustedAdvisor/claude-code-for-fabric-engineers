@@ -1,0 +1,149 @@
+#!/usr/bin/env python3
+"""Fake Fabric CLI for exercise 210-04. Read-only, no network, no sign-in.
+
+Reads the state folder named by the environment variable VERIFY_STATE (setup.sh sets it in env.sh).
+It knows exactly the calls a check needs:
+
+    fab job run-list   tta210-lab.Workspace/nb_kurs.Notebook
+    fab job run-status tta210-lab.Workspace/nb_kurs.Notebook --id <job id>
+    fab ls [-l]        tta210-lab.Workspace/lh_kurs.Lakehouse/Tables/orders_by_region/_delta_log
+
+Everything that would change the workspace (job run, job start, job run-cancel, ...) is refused.
+"""
+import datetime
+import email.utils
+import json
+import os
+import pathlib
+import sys
+
+
+def die(msg, code=1):
+    print(f"x {msg}", file=sys.stderr)
+    sys.exit(code)
+
+
+def state():
+    value = os.environ.get("VERIFY_STATE")
+    if not value:
+        die("VERIFY_STATE is not set. Run `source env.sh` in the project folder (setup.sh writes it).")
+    folder = pathlib.Path(value)
+    if not (folder / "jobs.json").is_file():
+        die(f"VERIFY_STATE={value} is not a state folder (no jobs.json)")
+    return folder, json.loads((folder / "jobs.json").read_text())
+
+
+def split(path):
+    parts = [p for p in path.strip("/").split("/") if p]
+    if not parts or not parts[0].endswith(".Workspace"):
+        die(f"[InvalidPath] {path}: expected <workspace>.Workspace/...")
+    return parts[0][: -len(".Workspace")], parts[1:]
+
+
+def notebook(path, jobs):
+    ws, rest = split(path)
+    if ws != jobs["workspace"]:
+        die(f"[NotFound] Workspace '{ws}' not found")
+    if rest != [f"{jobs['item']}.{jobs['itemType']}"]:
+        die(f"[NotFound] '{'/'.join(rest)}' not found in {ws}.Workspace (this fake knows {jobs['item']}.{jobs['itemType']})")
+
+
+def show(v):
+    return "null" if v is None else str(v)
+
+
+def table(header, rows):
+    widths = [max(len(h), *(len(r[i]) for r in rows)) if rows else len(h) for i, h in enumerate(header)]
+    line = "   ".join(h.ljust(w) for h, w in zip(header, widths))
+    print(line.rstrip())
+    print("-" * len(line.rstrip()))
+    for r in rows:
+        print("   ".join(c.ljust(w) for c, w in zip(r, widths)).rstrip())
+    print()
+
+
+def run_list(args):
+    if len(args) != 1:
+        die("usage: fab job run-list <workspace>.Workspace/<item>.Notebook")
+    _, jobs = state()
+    notebook(args[0], jobs)
+    cols = ["id", "status", "startTimeUtc", "endTimeUtc", "failureReason"]
+    runs = sorted(jobs["runs"], key=lambda r: r["startTimeUtc"])
+    table(cols, [[show(r[c]) for c in cols] for r in runs])
+
+
+def run_status(args):
+    if len(args) != 3 or args[1] != "--id":
+        die("usage: fab job run-status <workspace>.Workspace/<item>.Notebook --id <job id>")
+    _, jobs = state()
+    notebook(args[0], jobs)
+    hit = [r for r in jobs["runs"] if r["id"] == args[2]]
+    if not hit:
+        die(f"[NotFound] Job instance '{args[2]}' not found")
+    for key in ("id", "itemId", "jobType", "invokeType", "status", "startTimeUtc", "endTimeUtc", "failureReason"):
+        print(f"{key}: {show(hit[0][key])}")
+
+
+def commit_time(file):
+    """A commit file's time is its commitInfo timestamp (Git does not keep file times)."""
+    try:
+        for line in file.read_text().splitlines():
+            info = json.loads(line).get("commitInfo")
+            if info:
+                return datetime.datetime.fromtimestamp(info["timestamp"] / 1000, datetime.timezone.utc)
+    except (OSError, ValueError, KeyError):
+        pass
+    return None
+
+
+def newest(folder):
+    times = [t for f in folder.rglob("*.json") if (t := commit_time(f))]
+    return max(times) if times else None
+
+
+def ls(args):
+    long = "-l" in args
+    args = [a for a in args if a != "-l"]
+    if len(args) != 1:
+        die("usage: fab ls [-l] <workspace>.Workspace/<lakehouse>.Lakehouse/Tables/...")
+    folder, jobs = state()
+    ws, rest = split(args[0])
+    if ws != jobs["workspace"]:
+        die(f"[NotFound] Workspace '{ws}' not found")
+    if not rest or rest[0] != f"{jobs['lakehouse']}.Lakehouse":
+        die(f"[NotFound] this fake only lists inside {ws}.Workspace/{jobs['lakehouse']}.Lakehouse")
+    target = folder / "onelake" / pathlib.Path(*rest[1:])
+    if not target.is_dir() and rest[1:] not in ([], ["Files"], ["Tables"]):
+        die(f"[NotFound] The requested resource could not be found: {args[0]}")
+    rows = []
+    for entry in sorted(target.iterdir()) if target.is_dir() else []:
+        when = commit_time(entry) if entry.is_file() else newest(entry)
+        stamp = email.utils.format_datetime(when, usegmt=True) if when else ""
+        rows.append(["rw-r-----", stamp, entry.name, "File" if entry.is_file() else "Directory"])
+    if not long:
+        for r in rows:
+            print(r[2])
+        return
+    table(["permissions", "lastModified", "name", "type"], rows)
+
+
+def main(argv):
+    if not argv or argv[0] in ("-h", "--help"):
+        print(__doc__.strip())
+        return
+    if argv[0] == "--version":
+        print("fab (fake for exercise 210-04)")
+        return
+    if argv[0] == "ls":
+        return ls(argv[1:])
+    if argv[0] == "job" and len(argv) > 1:
+        if argv[1] == "run-list":
+            return run_list(argv[2:])
+        if argv[1] == "run-status":
+            return run_status(argv[2:])
+        die(f"`fab job {argv[1]}` is not available here: this fake only reads. Don't run the notebook; check what it left behind.")
+    die(f"`fab {' '.join(argv)}` is not part of this fake. It knows: job run-list, job run-status, ls -l (see fab --help).")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])

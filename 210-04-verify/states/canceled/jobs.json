@@ -1,0 +1,28 @@
+{
+  "workspace": "tta210-lab",
+  "lakehouse": "lh_kurs",
+  "item": "nb_kurs",
+  "itemType": "Notebook",
+  "runs": [
+    {
+      "id": "4a2f9d13-8c6e-4b71-a0d5-9e3b7c1f2a48",
+      "itemId": "6f1c2a8e-3b7d-4e52-9a41-0c5d8e7f2b19",
+      "jobType": "RunNotebook",
+      "invokeType": "Manual",
+      "status": "Completed",
+      "startTimeUtc": "2026-11-09T13:10:12.4410273",
+      "endTimeUtc": "2026-11-09T13:10:55.1302311",
+      "failureReason": null
+    },
+    {
+      "id": "c7e5b2a9-1d4f-4e83-b6a0-58f2d9c3e714",
+      "itemId": "6f1c2a8e-3b7d-4e52-9a41-0c5d8e7f2b19",
+      "jobType": "RunNotebook",
+      "invokeType": "Manual",
+      "status": "Completed",
+      "startTimeUtc": "2026-11-09T13:17:40.6980625",
+      "endTimeUtc": "2026-11-09T13:18:10.9713135",
+      "failureReason": null
+    }
+  ]
+}

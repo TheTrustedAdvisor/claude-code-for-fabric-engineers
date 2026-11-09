@@ -1,0 +1,18 @@
+{
+  "workspace": "tta210-lab",
+  "lakehouse": "lh_kurs",
+  "item": "nb_kurs",
+  "itemType": "Notebook",
+  "runs": [
+    {
+      "id": "0b6d6c1e-7f2a-4a8e-9c35-2d1f4e8a6b70",
+      "itemId": "6f1c2a8e-3b7d-4e52-9a41-0c5d8e7f2b19",
+      "jobType": "RunNotebook",
+      "invokeType": "Manual",
+      "status": "Completed",
+      "startTimeUtc": "2026-11-09T13:02:31.5520114",
+      "endTimeUtc": "2026-11-09T13:03:14.0072215",
+      "failureReason": null
+    }
+  ]
+}
