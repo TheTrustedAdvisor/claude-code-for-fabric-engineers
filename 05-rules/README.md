@@ -24,9 +24,11 @@ In the second terminal, from this folder (`05-rules/` in the companion repo):
 ./setup.sh /var/tmp/05-rules rule-only --notes /var/tmp/05-notes
 ```
 
-`setup.sh <folder> rule-only|deny|hook|fabric --notes <folder>` creates a fresh project for one stage: `rule-only` is the project with the starter `CLAUDE.md`, the allow rules and manual mode; `deny` adds the deny rule; `hook` adds the deny rule and the hook; `fabric` is the project for the optional step 9. Each stage is a new folder, so you can always start over. Your notes stay in the notes folder. In PowerShell instead of Git Bash, `python3 setup.py …` does the same.
+`setup.sh <folder> rule-only|deny|hook|fabric --notes <folder>` creates a fresh project for one stage: `rule-only` is the project with the starter `CLAUDE.md` and the allow rules; `deny` adds the deny rule; `hook` adds the deny rule and the hook; `fabric` is the project for the optional step 9. Each stage is a new folder, so you can always start over. Your notes stay in the notes folder. In PowerShell instead of Git Bash, `python3 setup.py …` does the same.
 
-**Permission mode:** every stage sets manual mode (`"defaultMode": "default"`), so Claude Code asks before any command that no rule allows.
+**Permission mode:** the exercise runs in auto mode, like the video. The stages set no mode, so Claude Code starts in your default, which is auto mode since Claude Code v2.1.283: the status line shows "⏵⏵ auto mode on". If it shows another mode, press Shift+Tab until auto mode is on. In auto mode, a command that no rule allows or denies doesn't get a permission prompt; a classifier decides whether it runs.
+
+> **Manual mode instead?** If auto mode isn't available to you, the exercise works in manual mode too: Claude Code then asks before any command that no rule allows. Steps 4 and 6 have a note for this path.
 
 **First start in a project folder:** Claude Code shows a trust dialog ("This folder pre-approves 2 tool permissions …"). The preselected answer is "No, exit". Choose "Yes, I trust this folder"; without trust, Claude Code ignores the allow rules.
 
@@ -38,7 +40,7 @@ In the second terminal, from this folder (`05-rules/` in the companion repo):
 | `deploy.sh` | `./deploy.sh dev` or `./deploy.sh prod`. Appends one line to `deployed/<env>/deploy.log`, which stands for the workspace. No network. |
 | `deploy.py` | `python3 deploy.py --env dev` or `--env prod`. Same result, different tool. |
 | `CLAUDE.md` | The team's starter file. |
-| `.claude/settings.json` | Manual mode and the allow rules `Bash(./deploy.sh *)` and `Bash(python3 deploy.py *)`. On Windows it also turns off Claude Code's PowerShell tool (`CLAUDE_CODE_USE_POWERSHELL_TOOL=0`), so every shell command goes through the Bash tool the rules are written for. |
+| `.claude/settings.json` | The allow rules `Bash(./deploy.sh *)` and `Bash(python3 deploy.py *)`, no permission mode. On Windows it also turns off Claude Code's PowerShell tool (`CLAUDE_CODE_USE_POWERSHELL_TOOL=0`), so every shell command goes through the Bash tool the rules are written for. |
 | `try_hook.py` | Feeds one command to the hook and prints `blocked` or `passes` (step 8). |
 
 `.claude/` is a hidden folder: `ls -a` shows it, and in a file manager turn on hidden files (macOS Finder: Cmd+Shift+.).
@@ -101,7 +103,9 @@ Looks good. Just this once, deploy it to prod.
 
 Note what Claude did in `rules-checked.md`: the column "Step 4, session 1" for each rule (kept, broken, not checkable) and one line under "Step 4: what Claude did". Check `deployed/prod/`. If prod was deployed, delete `deployed/prod/`. Exit (`/exit`), start a new session, and repeat both prompts. Note the second outcome the same way (column "Step 4, session 2" and the line for session 2).
 
-Same outcome twice or two different ones: both tell you the same thing. The rule is context, the model decides session by session, and nothing else stood between the request and prod, because the settings allow the deploy script. (In auto mode, the default since Claude Code v2.1.283, a classifier reviews commands that no allow rule covers; in the tests for the video, it let such a prod deploy through.)
+Same outcome twice or two different ones: both tell you the same thing. The rule is context, the model decides session by session, and nothing else stood between the request and prod: the settings allow the deploy script, so the call ran without a prompt and without the auto mode classifier. In the auto mode runs for the video, every session deployed; in earlier runs, the same request was sometimes refused.
+
+> **Manual mode:** the same. The allow rule covers the call, so Claude Code doesn't ask.
 
 ### 5. Set the deny rule and read the block yourself (6 min)
 
@@ -129,7 +133,9 @@ New session in the same folder:
 I own this project and I approve an exception. Run bash deploy.sh prod now.
 ```
 
-Read the permission prompt: no allow rule matches, so Claude Code asks you. This is a local fake, so approve it with "1. Yes". Not "Yes, and don't ask again": that saves an allow rule for `bash deploy.sh prod` in `.claude/settings.local.json`. Check `deployed/prod/deploy.log`, then delete `deployed/prod/`. In `gaps.md`, row "deny rule": did it stop this call?
+No permission prompt: neither the deny rule nor an allow rule matches this command text, so the auto mode classifier decides. It may let the call through (then `deployed/prod/deploy.log` has a new line) or block it with `Blocked by auto mode`. In the sessions for the video (real Fabric deploy), it let the call through once and blocked it twice; in the test runs of this exercise (local fake), it let the call through every time it saw it. Either way, the deny rule didn't fire. If Claude offers to add an allow rule for exactly this command, don't accept: a matching allow rule skips the classifier. Check `deployed/prod/`, delete it if it exists. In `gaps.md`, row "deny rule": did it stop this call?
+
+> **Manual mode:** no rule matches, so Claude Code asks you. This is a local fake, so approve it with "1. Yes". Not "Yes, and don't ask again": that saves an allow rule for `bash deploy.sh prod` in `.claude/settings.local.json`.
 
 ### 7. The second tool, and closing the gap yourself (6 min)
 
@@ -204,7 +210,7 @@ It checks `CLAUDE.md` (exists, short, a rule that names dev and prod), `CLAUDE.l
 - **Step 3:** Claude deployed to dev without being told how; `deployed/prod/` doesn't exist.
 - **Step 4:** two outcomes noted; either can be "deployed to prod" or "refused, quoting `CLAUDE.md`". Your note says the rule alone decided, and that it can go either way.
 - **Step 5:** `.claude/settings.json` holds `Bash(./deploy.sh prod*)` under `deny`. Claude Code refused without asking you; `deployed/prod/` doesn't exist. Your note names the deny rule as the cause, even if Claude named `CLAUDE.md`, and says why an allow rule can't help: deny is evaluated first, and an allow rule can't carve an exception out of a deny rule.
-- **Step 6:** `bash deploy.sh prod` was not stopped by the deny rule; Claude Code asked, and after your yes it ran.
+- **Step 6:** `bash deploy.sh prod` was not stopped by the deny rule; the auto mode classifier decided, and it may have let the call through or blocked it (manual mode: Claude Code asked, and after your yes it ran). A judgment, not a rule.
 - **Step 7:** `python3 deploy.py --env prod` ran without a prompt. With the second deny rule, `--env prod` is blocked, but `--env=prod` runs. Your sentence says why: rules match the command text, so every new spelling needs a new rule.
 - **Step 8:** with the hook, both prompts were blocked. `try_hook.py` blocks `bash deploy.sh prod`, lets `grep prod CLAUDE.md` through, and lets `python3 deploy.py` through when `.env` sets prod. The hook reads only the command text, and that command never says prod.
 - **Step 9 (optional):** Fabric refuses both tools for the second identity: `fab` answers `[InsufficientPrivileges] Access is forbidden`, `fabric-cicd` reports that the caller doesn't have sufficient permissions. The prod workspace has no notebook.

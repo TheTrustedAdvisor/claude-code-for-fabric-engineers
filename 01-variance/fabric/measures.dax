@@ -1,0 +1,33 @@
+// Three measures for the table bike_days. Relationship: bike_days[date] (many) -> calendar[date] (one).
+// The decisions live here, once: every report and every query on this model uses the same definition.
+
+Weekday bikes =
+// per counter: mean of its complete weekdays (96 quarter hours), rounded to one decimal; then summed over counters
+SUMX (
+    VALUES ( bike_days[counter_id] ),
+    ROUND (
+        CALCULATE (
+            AVERAGE ( bike_days[bikes] ),
+            bike_days[quarter_hours] = 96,
+            'calendar'[day_type] = "weekday"
+        ),
+        1
+    )
+)
+
+Weekend bikes =
+SUMX (
+    VALUES ( bike_days[counter_id] ),
+    ROUND (
+        CALCULATE (
+            AVERAGE ( bike_days[bikes] ),
+            bike_days[quarter_hours] = 96,
+            'calendar'[day_type] = "weekend"
+        ),
+        1
+    )
+)
+
+Weekend vs weekday % =
+// negative means fewer bikes on weekends
+ROUND ( ( DIVIDE ( [Weekend bikes], [Weekday bikes] ) - 1 ) * 100, 1 )

@@ -1,0 +1,69 @@
+table Sales
+	lineageTag: 5d0c6a1e-3f7b-4c2a-9e41-0b8f2d7a6c11
+
+	/// Net sales amount.
+	measure 'Total Sales' = SUM ( Sales[Amount] )
+		formatString: #,0
+		displayFolder: Sales
+		lineageTag: 0a4e7c2b-1d9f-4b6a-8c3e-5f2a9d1b7e40
+
+	/// Cost of the goods sold.
+	measure 'Total Cost' = SUM ( Sales[Cost] )
+		formatString: #,0
+		displayFolder: Sales
+		lineageTag: 7b3d9e1f-6a2c-4d8b-9f0e-2c5a7b1d3e62
+
+	/// Gross margin as a share of sales.
+	measure 'Margin %' = DIVIDE ( [Total Sales] - [Total Cost], [Total Sales] )
+		displayFolder: Margin
+		lineageTag: 3e8a1c5d-9b2f-4e7a-8d6c-1f4b9a2e5c73
+
+	/// Average sales per month over a full year.
+	measure 'Avg Monthly Sales' = [Total Sales] / 12
+		formatString: #,0
+		displayFolder: Sales
+		lineageTag: 9c2f5a8e-4d1b-4a3c-b7e9-6d0a3f8c2b14
+
+	/// Sales in the same period of the previous year.
+	measure 'Sales LY' = CALCULATE ( [Total Sales], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )
+		formatString: #,0
+		displayFolder: Time
+		lineageTag: 1f6b3d9a-2e8c-4f5b-a1d7-8e3c6b0a4f25
+
+	/// Number of distinct orders.
+	measure 'Order Count' = DISTINCTCOUNT ( Sales[OrderID] )
+		formatString: #,0
+		displayFolder: Sales
+		lineageTag: 6a0d4e2b-8f3c-4b9a-9c5e-3b7f1d8a6e36
+
+	column OrderID
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: order_id
+		lineageTag: 2d7c0a4f-5e9b-4c1d-8a3f-7b2e5d9c1a47
+
+	column OrderDate
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		summarizeBy: none
+		sourceColumn: order_date
+		lineageTag: 8e1b5c3a-0f7d-4e2b-b6a9-4c8d2f0b7e58
+
+	column Amount
+		dataType: decimal
+		summarizeBy: sum
+		sourceColumn: amount
+		lineageTag: 4b9e2d6c-7a1f-4d3e-9b8c-0e5a3c7d2f69
+
+	column Cost
+		dataType: decimal
+		summarizeBy: sum
+		sourceColumn: cost
+		lineageTag: 0c3a7f1e-9d5b-4a8c-a2e6-5f9b1d4c8a70
+
+	partition Sales = entity
+		mode: directLake
+		source
+			entityName: sales
+			schemaName: dbo
+			expressionSource: DatabaseQuery

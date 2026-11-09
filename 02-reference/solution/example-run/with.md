@@ -1,0 +1,1 @@
+- Sales.SemanticModel/definition/tables/Sales.tmdl:17 — M2: measure 'Margin %' has no `formatString`; percentages must use `0.0%`.

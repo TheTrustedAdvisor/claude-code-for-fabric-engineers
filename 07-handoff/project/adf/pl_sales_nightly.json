@@ -1,0 +1,28 @@
+{
+  "name": "pl_sales_nightly",
+  "properties": {
+    "activities": [
+      {
+        "name": "Lookup tables",
+        "type": "Lookup",
+        "typeProperties": {
+          "source": { "type": "SqlServerSource", "sqlReaderQuery": "SELECT table_schema, table_name FROM etl.ingest_tables WHERE pipeline = 'sales'" },
+          "firstRowOnly": false
+        }
+      },
+      {
+        "name": "ForEach table",
+        "type": "ForEach",
+        "dependsOn": [ { "activity": "Lookup tables", "dependencyConditions": [ "Succeeded" ] } ],
+        "typeProperties": {
+          "items": { "value": "@activity('Lookup tables').output.value", "type": "Expression" },
+          "isSequential": false,
+          "batchCount": 8,
+          "activities": [
+            { "name": "Copy table", "type": "Copy", "typeProperties": { "source": { "type": "SqlServerSource" }, "sink": { "type": "ParquetSink" } } }
+          ]
+        }
+      }
+    ]
+  }
+}

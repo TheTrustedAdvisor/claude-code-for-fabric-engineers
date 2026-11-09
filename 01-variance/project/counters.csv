@@ -1,0 +1,10 @@
+id1,abkuerzung,bezeichnung,fk_zaehler,velo,fuss,richtung_in,richtung_out,von,bis,status,korrekturfaktor,lon,lat
+5002,VZS_MYTH,Mythenquai,Y2H22073807,1,0,Innenstadt,Wollishofen,2022-09-27T00:00:00.000,,aktuell,0.98,8.535617,47.358655
+4270,VZS_MUEH,Mühlebachstrasse,Y2H18106792,1,0,Bellevue,Riesbach,2023-12-21T00:00:00.000,,aktuell,1.24,8.550739,47.364582
+2989,VZS_LANN,Langstrasse (Unterführung Nord),Y2H19101255,1,0,Helvetiaplatz,Limmatplatz,2019-11-08T00:00:00.000,,aktuell,0.96,8.528191,47.380615
+4249,VZS_LANS,Langstrasse (Unterführung Süd),Y2H21111102,1,0,Limmatplatz,Helvetiaplatz,2022-03-04T00:00:00.000,,aktuell,1.0,8.528425,47.380494
+4272,VZS_TUNS,Stadttunnel Süd (Barometer),COM25020339,1,0,beide Richtungen,---,2025-05-06T00:00:00.000,,aktuell,1.04,8.535479,47.376963
+1037,VZS_HARS,Hardbrücke Süd (Seite HB),Y2H16069943,1,0,Escher-Wyss-Platz,Hardplatz,2016-07-07T00:00:00.000,,aktuell,1.03,8.515816,47.38363
+4259,VZS_SIHL,Sihlpromenade,Y2H23015383,1,0,Innenstadt,Saalsporthalle,2023-01-20T00:00:00.000,,aktuell,1.09,8.52924,47.369185
+3012,VZS_BUCH,Bucheggplatz,Y2H20114444,1,0,Hofwiesenstrasse,Höngg,2021-02-25T00:00:00.000,,aktuell,1.27,8.53345,47.398911
+3015,FZS_CASS,Cassiopeiasteg,YSH20124740,0,1,Stadtgrenze,Bellevue,2021-05-07T00:00:00.000,,aktuell,0.91,8.537273,47.342891

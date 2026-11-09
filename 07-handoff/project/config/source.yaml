@@ -1,0 +1,14 @@
+# Source system for pl_sales_nightly. Owned by the DBA team, change only through them.
+server: sqlsrv-erp-01.contoso.local
+database: ERP
+login: svc_fabric_ingest
+gateway: gw-erp-prod
+
+# A logon trigger on sqlsrv-erp-01 limits the open sessions of this login.
+max_sessions_per_login: 48
+# The login is shared by three nightly ingest pipelines: pl_sales_nightly,
+# pl_finance_nightly and pl_stock_nightly. The trigger gives each pipeline an
+# equal share, by application name, and rejects a logon above that share.
+# Each Copy activity holds one session while it runs.
+
+maintenance_window: "Sun 01:00-03:00"

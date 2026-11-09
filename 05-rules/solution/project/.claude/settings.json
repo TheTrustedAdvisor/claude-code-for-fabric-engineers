@@ -1,0 +1,15 @@
+{
+  "env": {
+    "CLAUDE_CODE_USE_POWERSHELL_TOOL": "0"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(./deploy.sh *)",
+      "Bash(python3 deploy.py *)"
+    ],
+    "deny": [
+      "Bash(./deploy.sh prod*)",
+      "Bash(python3 deploy.py --env prod*)"
+    ]
+  }
+}

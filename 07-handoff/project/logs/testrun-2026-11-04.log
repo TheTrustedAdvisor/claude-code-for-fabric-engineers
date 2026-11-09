@@ -1,0 +1,32 @@
+2026-11-04T01:00:01Z run 5c1e9a7d pipeline pl_sales_nightly started in workspace sales-dev; Lookup tables: 30 rows; ForEach table: 30 items, isSequential false. Each line below is written when a copy ends.
+2026-11-04T01:00:04Z Copy table dbo.Invoices failed after 1s: ErrorCode=SqlFailedToConnect, 'Cannot connect to SQL Database. Logon failed for login 'svc_fabric_ingest' due to trigger execution.'
+2026-11-04T01:00:04Z Copy table dbo.Payments failed after 1s: ErrorCode=SqlFailedToConnect, 'Cannot connect to SQL Database. Logon failed for login 'svc_fabric_ingest' due to trigger execution.'
+2026-11-04T01:00:04Z Copy table dbo.Returns failed after 1s: ErrorCode=SqlFailedToConnect, 'Cannot connect to SQL Database. Logon failed for login 'svc_fabric_ingest' due to trigger execution.'
+2026-11-04T01:00:04Z Copy table dbo.Shipments failed after 1s: ErrorCode=SqlFailedToConnect, 'Cannot connect to SQL Database. Logon failed for login 'svc_fabric_ingest' due to trigger execution.'
+2026-11-04T01:01:53Z Copy table dbo.Customers succeeded after 110s, rows read 1000
+2026-11-04T01:01:57Z Copy table dbo.OrderLines succeeded after 114s, rows read 1962
+2026-11-04T01:02:01Z Copy table dbo.ProductGroups succeeded after 118s, rows read 2924
+2026-11-04T01:02:05Z Copy table dbo.Regions succeeded after 122s, rows read 3886
+2026-11-04T01:02:09Z Copy table dbo.Promotions succeeded after 126s, rows read 4848
+2026-11-04T01:02:13Z Copy table dbo.Currencies succeeded after 130s, rows read 5810
+2026-11-04T01:02:17Z Copy table dbo.Suppliers succeeded after 134s, rows read 6772
+2026-11-04T01:02:21Z Copy table dbo.Carriers succeeded after 138s, rows read 7734
+2026-11-04T01:02:30Z Copy table dbo.Orders succeeded after 147s, rows read 1481
+2026-11-04T01:02:34Z Copy table dbo.Products succeeded after 151s, rows read 2443
+2026-11-04T01:02:38Z Copy table dbo.Stores succeeded after 155s, rows read 3405
+2026-11-04T01:02:42Z Copy table dbo.Employees succeeded after 159s, rows read 4367
+2026-11-04T01:02:46Z Copy table dbo.Prices succeeded after 163s, rows read 5329
+2026-11-04T01:02:50Z Copy table dbo.Discounts succeeded after 167s, rows read 6291
+2026-11-04T01:02:54Z Copy table dbo.Warehouses succeeded after 171s, rows read 7253
+2026-11-04T01:02:58Z Copy table dbo.Channels succeeded after 175s, rows read 8215
+2026-11-04T01:04:23Z Copy table dbo.InvoiceLines succeeded after 150s, rows read 10620
+2026-11-04T01:04:27Z Copy table dbo.Campaigns succeeded after 117s, rows read 11101
+2026-11-04T01:04:31Z Copy table dbo.Coupons succeeded after 154s, rows read 11582
+2026-11-04T01:04:35Z Copy table dbo.GiftCards succeeded after 121s, rows read 12063
+2026-11-04T01:04:39Z Copy table dbo.Refunds succeeded after 158s, rows read 12544
+2026-11-04T01:04:43Z Copy table dbo.TaxRates succeeded after 125s, rows read 13025
+2026-11-04T01:04:47Z Copy table dbo.Calendar succeeded after 162s, rows read 13506
+2026-11-04T01:04:51Z Copy table dbo.FxRates succeeded after 129s, rows read 13987
+2026-11-04T01:04:55Z Copy table dbo.Budgets succeeded after 166s, rows read 14468
+2026-11-04T01:04:59Z Copy table dbo.Targets succeeded after 133s, rows read 14949
+2026-11-04T01:05:01Z run 5c1e9a7d finished: Failed. ForEach table: 26 of 30 copies succeeded, 4 failed

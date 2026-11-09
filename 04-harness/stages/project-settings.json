@@ -1,0 +1,12 @@
+{
+  "env": {
+    "CLAUDE_CODE_USE_POWERSHELL_TOOL": "0"
+  },
+  "autoMemoryEnabled": false,
+  "permissions": {
+    "defaultMode": "default",
+    "deny": [
+      "Bash(fab rm *)"
+    ]
+  }
+}

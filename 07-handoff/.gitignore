@@ -1,0 +1,2 @@
+# The logs belong to the exercise; keep them even where a global .gitignore excludes *.log
+!project/logs/*.log

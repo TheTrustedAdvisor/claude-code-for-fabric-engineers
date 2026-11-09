@@ -1,0 +1,24 @@
+table Date
+	dataCategory: Time
+	lineageTag: e2b6d0a4-1c8f-4e3b-9a7d-2f5c8b1e4a81
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: yyyy-mm-dd
+		summarizeBy: none
+		sourceColumn: date
+		lineageTag: a5c9e3b7-2d0f-4a6c-8e1b-9d4f7a2c5e92
+
+	column Year
+		dataType: int64
+		summarizeBy: none
+		sourceColumn: year
+		lineageTag: b8f2a6d0-3e1c-4b9f-a5d8-0c7e4b1f8a03
+
+	partition Date = entity
+		mode: directLake
+		source
+			entityName: dim_date
+			schemaName: dbo
+			expressionSource: DatabaseQuery
