@@ -1,0 +1,1 @@
+{"hook_event_name": "PreToolUse", "tool_name": "Bash", "tool_input": {"command": "fab ls tta210-p01-prod.Workspace"}}
