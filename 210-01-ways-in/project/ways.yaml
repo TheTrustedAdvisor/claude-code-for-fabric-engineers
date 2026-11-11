@@ -1,0 +1,6 @@
+# One way per task: fab, fab api or core mcp. Then add the allow rules to .claude/settings.json.
+task-1:
+task-2:
+task-3:
+task-4:
+task-5:

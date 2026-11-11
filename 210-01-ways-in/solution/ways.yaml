@@ -1,0 +1,6 @@
+# One way per task: fab, fab api or core mcp. Then add the allow rules to .claude/settings.json.
+task-1: fab          # Core MCP has no tool that runs a job
+task-2: fab          # unattended: a service principal can sign in to fab; Core MCP needs a browser sign-in
+task-3: core mcp     # an overview across workspaces: search_catalog
+task-4: core mcp     # management with an exact rule: add_workspace_role (fab acl set works too)
+task-5: fab api      # no fab command for it: fab api workspaces/<id>/sqlEndpoints/<id>/refreshMetadata -X post

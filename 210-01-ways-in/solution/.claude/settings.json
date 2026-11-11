@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(fab job run tta210-lab.Workspace/nb_kurs.Notebook)",
+      "Bash(fab job run-list tta210-lab.Workspace/nb_kurs.Notebook)",
+      "mcp__fabric-core__search_catalog",
+      "mcp__fabric-core__add_workspace_role",
+      "Bash(fab api workspaces/*/sqlEndpoints/*/refreshMetadata -X post)"
+    ]
+  }
+}
