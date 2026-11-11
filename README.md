@@ -2,7 +2,7 @@
 
 Companion repo to the YouTube series "Claude Code for Fabric Engineers" by Matthias Falland: Claude Code for people who build on Microsoft Fabric, one habit per part. Each part ends with an exercise you can run on your own laptop, with a description of what a good result looks like, so you can check yourself.
 
-**Playlist:** [Claude Code for Fabric Engineers](https://www.youtube.com/playlist?list=PLAYLIST_ID) (link follows when the series is public)
+**Playlist:** [Claude Code for Fabric Engineers](https://www.youtube.com/playlist?list=PLe1Z-rZtBDSo)
 
 The exercises run locally, with fake deploy scripts where a deploy is involved. You need no Fabric capacity; an optional step in each exercise uses a real workspace or model if you have one.
 
