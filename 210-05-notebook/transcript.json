@@ -1,0 +1,115 @@
+{
+  "_about": "Toolkit responses recorded on 24 Nov 2026 for part 5 of 'Learning Claude for Microsoft Fabric' (fntk 0.0.1a12). Workspace, notebook and lakehouse IDs replaced, and the two ended sessions in step 3 shortened to what the exercise needs; stages, messages and next_actions as the toolkit returned them.",
+  "steps": [
+    {
+      "step": 1,
+      "you_ran": "fntk notebook start-session -w 7d1e4c2a-5b38-4f6e-9a21-3c8b0d4e6f10 -a 2f9a6b1c-8e47-4d35-b0c2-61a7e9d3f845 --json",
+      "response": {
+        "status": "success",
+        "stage": "completed",
+        "progress": 1.0,
+        "message": "Poll with 'fntk notebook get-session' until data.livy_session_state=idle.",
+        "data": {
+          "status": "created",
+          "session_id": "0a3e76bf-cb5d-4386-9450-895d9907983e",
+          "workspace_id": "7d1e4c2a-5b38-4f6e-9a21-3c8b0d4e6f10",
+          "artifact_id": "2f9a6b1c-8e47-4d35-b0c2-61a7e9d3f845",
+          "livy_session_state": "starting",
+          "display_status": "Starting session",
+          "reused": false,
+          "lakehouse": {
+            "status": "attached",
+            "id": "9c3e5a71-2d64-4b8f-a1e0-7f5b2c9d8e36",
+            "name": "lh_kurs"
+          }
+        },
+        "next_actions": [
+          {
+            "type": "poll",
+            "command": "fntk notebook get-session -w 7d1e4c2a-5b38-4f6e-9a21-3c8b0d4e6f10 -a 2f9a6b1c-8e47-4d35-b0c2-61a7e9d3f845 --session-id 0a3e76bf-cb5d-4386-9450-895d9907983e --json",
+            "description": "Poll session status until ready",
+            "retry_after": 5,
+            "max_retries": 72,
+            "stop_condition": "data.livy_session_state == 'idle'"
+          }
+        ],
+        "plan_hints": [],
+        "error": null
+      }
+    },
+    {
+      "step": 2,
+      "you_ran": "fntk code run -w 7d1e4c2a-5b38-4f6e-9a21-3c8b0d4e6f10 -a 2f9a6b1c-8e47-4d35-b0c2-61a7e9d3f845 --code \"$(cat check.py)\" --json",
+      "response": {
+        "status": "running",
+        "stage": "executing_code",
+        "progress": 0.1,
+        "message": "Code submitted (op_id=op-579d0cb7de2b). Poll code get-result.",
+        "data": {
+          "op_id": "op-579d0cb7de2b",
+          "status": "running",
+          "session_id": "0a3e76bf-cb5d-4386-9450-895d9907983e"
+        },
+        "next_actions": [
+          {
+            "type": "poll",
+            "command": "fntk code get-result --workspace-id 7d1e4c2a-5b38-4f6e-9a21-3c8b0d4e6f10 --artifact-id 2f9a6b1c-8e47-4d35-b0c2-61a7e9d3f845 --execution-id op-579d0cb7de2b --json",
+            "description": "Poll execution result until completed",
+            "retry_after": 3,
+            "max_retries": 120,
+            "stop_condition": "status == 'error' or data.status in ('completed', 'error')"
+          }
+        ],
+        "plan_hints": [
+          "Poll code get-result until completed",
+          "Inspect outputs when done"
+        ],
+        "error": null
+      }
+    },
+    {
+      "step": 3,
+      "you_ran": "fntk server stop --json",
+      "response": {
+        "status": "success",
+        "stage": "completed",
+        "progress": 1.0,
+        "message": "Server stopped (PID 1469909)",
+        "data": {
+          "status": "stopped",
+          "pid": 1469909,
+          "port": 19876
+        },
+        "next_actions": [],
+        "plan_hints": [],
+        "error": null
+      },
+      "then_read_from_fabric": {
+        "request": "GET https://api.fabric.microsoft.com/v1/workspaces/7d1e4c2a-5b38-4f6e-9a21-3c8b0d4e6f10/notebooks/2f9a6b1c-8e47-4d35-b0c2-61a7e9d3f845/livySessions",
+        "value": [
+          {
+            "livyId": "6698124d-1ba6-4efb-ac2e-c03c62c57fbb",
+            "itemName": "nb_kurs",
+            "state": "Succeeded",
+            "endDateTime": "2026-11-24T22:18:41Z",
+            "cancellationReason": null
+          },
+          {
+            "livyId": "a8055483-4dbb-46f5-8af2-7c12bff62bc1",
+            "itemName": "fntk-session",
+            "state": "InProgress",
+            "endDateTime": "0001-01-01T00:00:00Z",
+            "sparkApplicationId": "application_1795558583169_0001"
+          },
+          {
+            "livyId": "c03f066a-9eb7-4ac1-be2f-1a4a74c5d2e0",
+            "itemName": "fntk-session",
+            "state": "Succeeded",
+            "endDateTime": "2026-11-24T22:16:30Z",
+            "cancellationReason": "User cancelled the Spark session"
+          }
+        ]
+      }
+    }
+  ]
+}

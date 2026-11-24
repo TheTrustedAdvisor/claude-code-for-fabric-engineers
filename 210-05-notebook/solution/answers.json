@@ -1,0 +1,6 @@
+{
+  "q1": "fntk notebook get-session -w 7d1e4c2a-5b38-4f6e-9a21-3c8b0d4e6f10 -a 2f9a6b1c-8e47-4d35-b0c2-61a7e9d3f845 --session-id 0a3e76bf-cb5d-4386-9450-895d9907983e --json, every 5 s until livy_session_state is idle",
+  "q2": "fntk code get-result --workspace-id 7d1e4c2a-5b38-4f6e-9a21-3c8b0d4e6f10 --artifact-id 2f9a6b1c-8e47-4d35-b0c2-61a7e9d3f845 --execution-id op-579d0cb7de2b --json, every 3 s until completed or error",
+  "q3": "fntk notebook delete-session -w 7d1e4c2a-5b38-4f6e-9a21-3c8b0d4e6f10 -a 2f9a6b1c-8e47-4d35-b0c2-61a7e9d3f845 --session-id 0a3e76bf-cb5d-4386-9450-895d9907983e --json, then read the Livy sessions again until it has ended",
+  "open_livy_session": "a8055483-4dbb-46f5-8af2-7c12bff62bc1"
+}
