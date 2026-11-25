@@ -1,0 +1,7 @@
+expression 'DirectLake - lh_kurs' =
+		let
+			Source = AzureStorage.DataLake("https://onelake.dfs.fabric.microsoft.com/<your-workspace-id>/<your-lakehouse-id>", [HierarchicalNavigation=true])
+		in
+			Source
+	lineageTag: 67e0a0ab-640a-57eb-b34f-c1fc46a8c937
+

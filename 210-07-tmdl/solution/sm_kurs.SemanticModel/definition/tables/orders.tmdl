@@ -1,0 +1,36 @@
+table orders
+	lineageTag: b76577f1-451d-5df5-8261-4015ba605911
+
+	measure 'Total Revenue' = SUM(orders[Sales Amount])
+		formatString: #,0.00
+
+	column order_id
+		dataType: int64
+		lineageTag: 57bd5aac-a8da-59a1-8a7e-aa98efd73e72
+		summarizeBy: none
+		sourceColumn: order_id
+
+	column region
+		dataType: string
+		lineageTag: 52056109-3365-519f-b38e-38117e8a6716
+		summarizeBy: none
+		sourceColumn: region
+
+	column 'Sales Amount'
+		dataType: double
+		lineageTag: f03ec85d-0cef-5ce4-a911-999328635f11
+		summarizeBy: none
+		sourceColumn: amount
+
+	column order_date
+		dataType: string
+		lineageTag: 17e15147-8250-5a23-a269-82f033c5822f
+		summarizeBy: none
+		sourceColumn: order_date
+
+	partition orders = entity
+		mode: directLake
+		source
+			entityName: orders
+			expressionSource: 'DirectLake - lh_kurs'
+
