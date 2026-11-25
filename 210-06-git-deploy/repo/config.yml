@@ -1,0 +1,5 @@
+core:
+  workspace:
+    dev: "tta210-p01-probe"
+    test: "tta210-p01-test"
+  repository_directory: "."

@@ -1,0 +1,7 @@
+find_replace:
+  - find_value: "0487129d-f566-48c6-8449-26dfa77b3853"   # dev lakehouse lh_kurs
+    replace_value:
+      test: "$items.Lakehouse.lh_kurs.$id"
+  - find_value: "b296d542-9719-4227-be31-76cc101c40c5"   # dev workspace tta210-p01-probe
+    replace_value:
+      test: "$workspace.$id"

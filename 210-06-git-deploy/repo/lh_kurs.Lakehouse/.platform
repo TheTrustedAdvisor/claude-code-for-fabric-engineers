@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Lakehouse",
+    "displayName": "lh_kurs"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "8a3e7d52-61c0-4b9f-a0e4-3d2c58f71b06"
+  }
+}

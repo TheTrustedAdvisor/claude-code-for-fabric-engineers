@@ -1,0 +1,8 @@
+{
+  "_note": "The test workspace the dry run deploys to: what fab deploy would find there. IDs are examples.",
+  "environment": "test",
+  "dev": {"workspace": {"name": "tta210-p01-probe", "id": "b296d542-9719-4227-be31-76cc101c40c5"},
+          "items": {"Lakehouse": {"lh_kurs": "0487129d-f566-48c6-8449-26dfa77b3853"}}},
+  "test": {"workspace": {"name": "tta210-p01-test", "id": "059f613c-1f5e-4451-b8ae-3ed463fa1b78"},
+           "items": {"Lakehouse": {"lh_kurs": "b2443f6c-be91-41d6-a2e2-e69c14a1fa02"}}}
+}

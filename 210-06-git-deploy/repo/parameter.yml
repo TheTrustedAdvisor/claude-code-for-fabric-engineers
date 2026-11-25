@@ -1,0 +1,4 @@
+find_replace:
+  - find_value: "0487129d-f566-48c6-8449-26dfa77b3853"   # dev lakehouse lh_kurs
+    replace_value:
+      test: "$items.Lakehouse.lh_kurs.$id"
