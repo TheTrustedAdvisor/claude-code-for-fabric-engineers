@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(fab auth status)",
+      "Bash(fab ls *)",
+      "Bash(fab job run *)",
+      "Bash(fab job run-list *)",
+      "Bash(./fabric *)",
+      "Bash(python3 checks/check_orders.py)"
+    ],
+    "deny": [
+      "Bash(fab rm *)",
+      "mcp__fabric-core__delete_item"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^(Bash|mcp__.*)$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/block_protected.py\"",
+            "onFailure": "block"
+          }
+        ]
+      }
+    ]
+  }
+}

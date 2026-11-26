@@ -23,7 +23,7 @@ More exercises follow with the next videos.
 | [210-05-notebook/](210-05-notebook/) | Learning Claude for Microsoft Fabric, part 5: Fabric notebook toolkit: can Claude Code debug a live Spark session? | in preparation |
 | [210-06-git-deploy/](210-06-git-deploy/) | Learning Claude for Microsoft Fabric, part 6: Fabric Git integration: should Claude Code edit repo or workspace? | in preparation |
 | [210-07-tmdl/](210-07-tmdl/) | Learning Claude for Microsoft Fabric, part 7: Fabric semantic models in TMDL: can you trust Claude Code's edits? | ready |
-| [210-08-team-setup/](210-08-team-setup/) | Learning Claude for Microsoft Fabric, part 8: Fabric repo for a team: what belongs in CLAUDE.md, MCP and skills? | in preparation |
+| [210-08-team-setup/](210-08-team-setup/) | Learning Claude for Microsoft Fabric, part 8: Fabric repo for a team: what belongs in CLAUDE.md, MCP and skills? | ready |
 
 ## What you need
 
