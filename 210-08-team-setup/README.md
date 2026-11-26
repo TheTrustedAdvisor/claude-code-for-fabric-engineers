@@ -21,12 +21,12 @@ Companion exercise to part 8 of the series "Learning Claude for Microsoft Fabric
 [OK] 1 CLAUDE.md present, under 200 lines
 [OK] 2 .gitignore keeps .claude/settings.local.json out of git
 [OK] 3 .claude/settings.json has allow and deny rules
-[OK] 4 hook registered under PreToolUse for Bash and MCP, path from $CLAUDE_PROJECT_DIR, onFailure block
+[OK] 4 hook: PreToolUse for Bash and MCP, $CLAUDE_PROJECT_DIR, onFailure block
 [OK] 5 hook stops fab job run on orders-prod
 [OK] 6 hook stops an MCP call on orders-prod
 [OK] 7 hook lets orders-dev through
 [OK] 8 .mcp.json names at least one server with a url or command
-[OK] 9 a skill in .claude/skills/<name>/SKILL.md with name and description
+[OK] 9 a skill: .claude/skills/<name>/SKILL.md, name and description
 [OK] 10 0 token patterns in any file
 PASS
 ```

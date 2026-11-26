@@ -45,13 +45,13 @@ say(md.is_file() and 0 < len(lines) < 200, "CLAUDE.md present, under 200 lines",
 gi = project / ".gitignore"
 ign = gi.read_text(encoding="utf-8").splitlines() if gi.is_file() else []
 say(any(l.strip().lstrip("/") in (".claude/settings.local.json", ".claude/*.local.json") for l in ign),
-    ".gitignore keeps .claude/settings.local.json out of git", "add .claude/settings.local.json to .gitignore")
+    ".gitignore keeps .claude/settings.local.json out of git", "add it to .gitignore")
 
 # 3 shared settings: rules and the hook registration
 settings, err = load(".claude/settings.json")
 if settings is None:
     say(False, ".claude/settings.json has allow and deny rules", err)
-    say(False, "hook registered under PreToolUse for Bash and MCP, path from $CLAUDE_PROJECT_DIR, onFailure block", err)
+    say(False, "hook: PreToolUse for Bash and MCP, $CLAUDE_PROJECT_DIR, onFailure block", err)
 else:
     perms = settings.get("permissions", {})
     say(bool(perms.get("allow")) and bool(perms.get("deny")), ".claude/settings.json has allow and deny rules",
@@ -61,7 +61,7 @@ else:
             if all(re.search(e.get("matcher", ""), t) for t in ("Bash", "mcp__fabric-core__list_items"))
             and any("CLAUDE_PROJECT_DIR" in h.get("command", "") and h.get("onFailure") == "block"
                     for h in e.get("hooks", []))]
-    say(bool(good), "hook registered under PreToolUse for Bash and MCP, path from $CLAUDE_PROJECT_DIR, onFailure block",
+    say(bool(good), "hook: PreToolUse for Bash and MCP, $CLAUDE_PROJECT_DIR, onFailure block",
         "matcher must match Bash and mcp__…, the command must start the hook through $CLAUDE_PROJECT_DIR")
 
 # 4 the hook stops a sample call
@@ -79,7 +79,7 @@ for name, want, label in (("prod.json", 2, "hook stops fab job run on orders-pro
                           ("mcp-prod.json", 2, "hook stops an MCP call on orders-prod"),
                           ("dev.json", 0, "hook lets orders-dev through")):
     if not hook.is_file():
-        say(False, label, ".claude/hooks/block_protected.py not found")
+        say(False, label, "no hook in .claude/hooks/")
     else:
         got, why = run(name)
         say(got == want and (want == 0 or why), label,
@@ -94,7 +94,7 @@ say(bool(servers) and all(s.get("url") or s.get("command") for s in servers.valu
 # 6 one skill
 skills = sorted((project / ".claude" / "skills").glob("*/SKILL.md"))
 front = [s for s in skills if re.search(r"(?s)^---\s*\n.*?^name:\s*\S.*?^description:\s*\S.*?^---", s.read_text(encoding="utf-8"), re.M)]
-say(bool(front), "a skill in .claude/skills/<name>/SKILL.md with name and description",
+say(bool(front), "a skill: .claude/skills/<name>/SKILL.md, name and description",
     "found none" if not skills else "frontmatter needs name: and description:")
 
 # 7 no token in any file
